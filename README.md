@@ -1,4 +1,4 @@
-# SsoAuthenticationApi
+# SsoAdminApi
 
 The SSO admin manager API allows an NFG application (most likely the Identity server) to update admin information (name, email address) in another Ruby based NFG Application
 
@@ -13,6 +13,8 @@ To update a user, other systems should submit a put/patch to:
 ````
 [domain]/api/v1/admins/:id
 ````
+
+The :id can be an email address, the internal admin id, or the sso-id
 
 The domains are as follows:
 
