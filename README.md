@@ -1,15 +1,17 @@
 # SsoAuthenticationApi
 
-The SSO authentication API allows an NFG application to poll whether an email/password combination represents a a valid, authenticatable user.
+The SSO admin manager API allows an NFG application (most likely the Identity server) to update admin information (name, email address) in another Ruby based NFG Application
 
 It offers a single interface, and returns information about the user using http codes and a json packet.
 
+It can receive as an admin identifier the admins email address, id, or sso id.
+
 ## Request
 
-To inquire about a user, other systems should submit a post to:
+To update a user, other systems should submit a put/patch to:
 
 ````
-[domain]/api/v1/admins/authentications
+[domain]/api/v1/admins/:id
 ````
 
 The domains are as follows:
@@ -18,10 +20,10 @@ The domains are as follows:
 * Beta: api.networkforgood-beta.com
 * Production: api.networkforgood.com
 
-The post must include a JSON packet with the following information:
+The post must include a JSON packet with the information to be updated. It can include email, first_name, last_name:
 
 ````
-{ email: "email.example.com", password: "users password"}
+{ email: "email.example.com", last_name: "Smith"}
 ````
 
 The request must also include an Authorization header with a Bearer token that is appopriate for the environment.
@@ -34,25 +36,15 @@ The response will include on of the following http codes
 There system encountered an issue in handling this request. It may be due to an invalid bearer token, a post with no parameters, or some other unrelated server problem. Ensure you are using the correct bearer token and attempt your request again.
 
 ### 200
-Indicatees the user is a valid and authenticatable user. Includes the following information:
+Indicatees the user was successfully updated. May update multiple accounts
 
 ````
 {
-  id: Internal ID assigned to the user by the application
   first_name: first name of the user
   last_name: last name of the user
   email: email address of the user
-  status: "active", "inactive, or "pending" (this may differ app to app)
-  roles: A list (JSON array) of app specific roles
 }
 ````
-
-This user may have multiple accounts, but at least one of them was authenticateable. Others may not have been
-
-### 401
-Indicates the user exists within the app, but was not able to be authenticated. Returns the same user packet as for a 200 response
-
-This user may have multiple accounts, none of which were authenticateable.
 
 ### 404
 No matching user was found
