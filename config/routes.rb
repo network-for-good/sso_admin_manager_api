@@ -1,7 +1,5 @@
-SsoAuthenticationApi::Engine.routes.draw do
+SsoAdminManagerApi::Engine.routes.draw do
   namespace :v1 do
-    namespace :admins do
-      resources :authentications, only: [:create]
-    end
+    resources :admins, only: [:update]
   end
 end

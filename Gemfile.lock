@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sso_authentication_api (0.0.1)
+    sso_admin_manager_api (0.0.1)
       active_model_serializers
       jwt
       rails (~> 4.2.7.1)
@@ -151,7 +151,7 @@ DEPENDENCIES
   pry-byebug
   rspec-rails (~> 3.4.0)
   sqlite3
-  sso_authentication_api!
+  sso_admin_manager_api!
 
 BUNDLED WITH
    1.13.6

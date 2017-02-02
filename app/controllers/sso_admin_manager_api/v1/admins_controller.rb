@@ -1,4 +1,4 @@
-require 'sso_authentication_api/secure_api'
+require 'sso_admin_manager_api/secure_api'
 
 module SsoAuthenticationApi
   module V1
@@ -11,9 +11,9 @@ module SsoAuthenticationApi
 
         respond_to :json
 
-        def create
+        def update
           # byebug
-          render(json: { errors: "Request must include an email param"}, status: 500) and return if params[:email].nil?
+          render(json: { errors: "Request must include an email param"}, status: 500) and return if params[:id].nil?
           render(json: { errors: "Admin could not be found"}, status: 404) and return unless @admin
 
           respond_with  @admin, serializer: SsoAuthenticationApi::V1::AdminSerializer, location: nil, status: @status
@@ -28,14 +28,8 @@ module SsoAuthenticationApi
         end
 
         def load_admin
-          admins = Admin.where(email: params[:email])
-          return if admins.empty?
-          if @admin = first_authenticated_admin(admins)
-            @status = 200
-          else
-            @admin = admins.first
-            @status = 401
-          end
+          query = Admin.where(email: param[:id], id: param[:id], sso_id: param[:id])
+          @admin = Admin.where(query.where_values.inject(:or)).first
         end
 
         def first_authenticated_admin(admins)

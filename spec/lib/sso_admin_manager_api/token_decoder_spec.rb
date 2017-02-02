@@ -14,7 +14,7 @@ describe SsoAuthenticationApi::TokenDecoder do
     # the class between tests to ensure we are getting the correct
     # versions of the certs
     SsoAuthenticationApi.send(:remove_const, 'TokenDecoder')
-    load 'sso_authentication_api/token_decoder.rb'
+    load 'sso_admin_manager_api/token_decoder.rb'
   end
 
   describe ".certificate" do

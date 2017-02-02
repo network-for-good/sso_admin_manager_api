@@ -3,7 +3,7 @@ require File.expand_path('../boot', __FILE__)
 require 'rails/all'
 
 Bundler.require(*Rails.groups)
-require "sso_authentication_api"
+require "sso_admin_manager_api"
 require "responders"
 require "sqlite3"
 require "active_model_serializers"
