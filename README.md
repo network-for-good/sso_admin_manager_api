@@ -51,6 +51,21 @@ Indicatees the user was successfully updated. May update multiple accounts
 ### 404
 No matching user was found
 
+# Requirements of containing app
+There are several expectations that this library has for the containing application.
+1. The target user class is Admin, which must have the following attributes and/or methods:
+  * id,
+  * first_name,
+  * last_name,
+  * email,
+  * status,
+  * roles - A list of allowed roles
+  * root_url - A url corresponding to the site the admin belongs to
+2. Admin should have both of the following scopes
+  * "#active" - Is the user an active user
+  * "#active_org" - Is the user associated with an org that is active
+3. The Admin class can have an sso_id field that stores an ID provided by the SSO server and can be used to identify the user. This library will check for the existence of this field.
+
 
 
 

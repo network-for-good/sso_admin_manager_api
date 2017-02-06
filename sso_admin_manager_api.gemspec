@@ -6,7 +6,7 @@ require "sso_admin_manager_api/version"
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "sso_admin_manager_api"
-  s.version     = SsoAuthenticationApi::VERSION
+  s.version     = SsoAdminManagerApi::VERSION
   s.authors     = ["Thomas Hoen"]
   s.email       = ["tom@givecorps.om"]
   s.homepage    = ""

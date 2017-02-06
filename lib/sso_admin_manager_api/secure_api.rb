@@ -1,11 +1,11 @@
-module SsoAuthenticationApi
+module SsoAdminManagerApi
   module TokenAuthentication
     def authorize_nfg_request!
       authorization_token = request.authorization
       raise JWT::DecodeError.new unless authorization_token
 
       token = authorization_token.gsub("Bearer ", "").strip
-      decoded_token = SsoAuthenticationApi::TokenDecoder.decode(token)
+      decoded_token = SsoAdminManagerApi::TokenDecoder.decode(token)
     rescue JWT::DecodeError
       render(json: { errors: 'A token must be passed.'}, status: 500)
     rescue JWT::ExpiredSignature

@@ -1,4 +1,4 @@
-module SsoAuthenticationApi
+module SsoAdminManagerApi
   class TokenDecoder
     require "jwt"
 

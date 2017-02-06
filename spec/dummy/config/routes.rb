@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
 
-  mount SsoAuthenticationApi::Engine => "/sso_admin_manager_api"
+  mount SsoAdminManagerApi::Engine => "/sso_admin_manager_api"
 
 end
