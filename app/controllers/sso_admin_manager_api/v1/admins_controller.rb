@@ -20,7 +20,7 @@ module SsoAdminManagerApi
 
         # this will automatically use the ArraySerializer for the collection,
         # and the Admin serializer for each admin record in the collection
-        render json: @admins
+        render json: @admins, adapter: :json_api, meta: { record_count: @admins.length }
       rescue StandardError => e
         render(json: { errors: "An error occurred: #{ e.message }"}, status: 500)
       end
