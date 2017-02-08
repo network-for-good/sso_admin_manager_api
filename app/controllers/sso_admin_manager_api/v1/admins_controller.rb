@@ -7,16 +7,20 @@ module SsoAdminManagerApi
       respond_to :json
 
       before_filter :authorize_nfg_request!
-      before_filter :load_admin
+      before_filter :load_admins
 
       def update
         # byebug
         render(json: { errors: "Request must include an email param"}, status: 500) and return if params[:id].nil?
-        render(json: { errors: "Admin could not be found"}, status: 404) and return unless @admin
+        render(json: { errors: "Admin could not be found"}, status: 404) and return unless @admins.present?
 
-        @admin.update(admin_params.slice(:email, :first_name, :last_name))
+        @admins.each do |admin|
+          admin.update(admin_params.slice(:email, :first_name, :last_name))
+        end
 
-        respond_with  @admin, serializer: SsoAdminManagerApi::V1::AdminSerializer, location: nil, status: @status
+        respond_with  @admins,  each_serializer: SsoAdminManagerApi::V1::AdminSerializer, location: nil, status: 200
+      rescue StandardError => e
+        render(json: { errors: "An error occurred: #{ e.message }"}, status: 500)
       end
 
 
@@ -27,14 +31,14 @@ module SsoAdminManagerApi
         true
       end
 
-      def load_admin
-        # discussion of how this works to create an or statement
-        # https://coderwall.com/p/dgv7ag/or-queries-with-arrays-as-arguments-in-rails-4
-        if number?(params[:id])
-          @admin = Admin.active.find_by(id: params[:id])
-        else
-          @admin = Admin.active.find_by(email: params[:id]) || Admin.active.find_by(sso_id: params[:id])
-        end
+      def load_admins
+        @admins = if number?(params[:id])
+                    base_admin_scope.where(id: params[:id])
+                  elsif Admin.new.respond_to?(:sso_id)
+                    base_admin_scope.where(["email = ? or sso_id = ?", params[:id], params[:id]])
+                  else
+                    base_admin_scope.where(email: params[:id])
+                  end
       end
 
       def number?(obj)
@@ -44,6 +48,10 @@ module SsoAdminManagerApi
 
       def admin_params
         params.permit(:email, :first_name, :last_name)
+      end
+
+      def base_admin_scope
+        Admin.active
       end
 
     end
