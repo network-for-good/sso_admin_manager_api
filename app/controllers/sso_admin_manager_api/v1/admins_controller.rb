@@ -42,11 +42,11 @@ module SsoAdminManagerApi
 
       def load_admins
         @admins = if number?(params[:id])
-                    base_admin_scope.where(id: params[:id])
+                    Admin.where(id: params[:id])
                   elsif Admin.new.respond_to?(:sso_id)
-                    base_admin_scope.where(["email = ? or sso_id = ?", params[:id], params[:id]])
+                    Admin.where(["email = ? or sso_id = ?", params[:id], params[:id]])
                   else
-                    base_admin_scope.where(email: params[:id])
+                    Admin.where(email: params[:id])
                   end
       end
 
@@ -57,10 +57,6 @@ module SsoAdminManagerApi
 
       def admin_params
         params.permit(:email, :first_name, :last_name)
-      end
-
-      def base_admin_scope
-        Admin.active
       end
 
       def verify_id_param
