@@ -7,31 +7,38 @@ module SsoAdminManagerApi
       respond_to :json
 
       before_filter :authorize_nfg_request!
-      before_filter :load_admins
+      before_filter :verify_id_param
 
-      def update
-        # byebug
-        render(json: { errors: "Request must include an email param"}, status: 500) and return if params[:id].nil?
-        render(json: { errors: "Admin could not be found"}, status: 404) and return unless @admins.present?
+      def index
+        load_admins
 
-        @admins.each do |admin|
-          admin.update(admin_params.slice(:email, :first_name, :last_name))
+        if @admins.present?
+          render json: @admins, adapter: :json_api, meta: { record_count: @admins.length }
+        else
+          render(json: { errors: "Admin could not be found"}, status: 404)
         end
 
-        # this will automatically use the ArraySerializer for the collection,
-        # and the Admin serializer for each admin record in the collection
-        render json: @admins, adapter: :json_api, meta: { record_count: @admins.length }
+      rescue StandardError => e
+        render(json: { errors: "An error occurred: #{ e.message }"}, status: 500)
+      end
+
+      def update
+        admin = Admin.find_by(id: params[:id])
+
+        if admin
+          admin.update(admin_params.slice(:email, :first_name, :last_name))
+          # this will automatically use the ArraySerializer for the collection,
+          # and the Admin serializer for each admin record in the collection
+          render json: admin, adapter: :json_api
+        else
+          render(json: { errors: "Admin could not be found"}, status: 404)
+        end
       rescue StandardError => e
         render(json: { errors: "An error occurred: #{ e.message }"}, status: 500)
       end
 
 
     private
-
-      def skip_track_action
-        # no reason to add ahoy event records for api requests
-        true
-      end
 
       def load_admins
         @admins = if number?(params[:id])
@@ -54,6 +61,10 @@ module SsoAdminManagerApi
 
       def base_admin_scope
         Admin.active
+      end
+
+      def verify_id_param
+        ender(json: { errors: "Request must include an id param. The id param can set to one of the following:  email, internal id, or sso_id"}, status: 500) if params[:id].nil?
       end
 
     end
