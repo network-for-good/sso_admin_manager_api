@@ -13,9 +13,7 @@ To return a list of users that match a query value, submit a get to:
 ````
 
 Where [query string] can be
-  email=[an email address]
-  sso_id=[an sso id]
-  id=[an internal id]
+  email=[an email address], sso_id=[an sso id], or id=[an internal id]
 
 ```
 [domain]/[mount_point]/v1/admins?email=this@that.com
@@ -78,7 +76,7 @@ The post must include a JSON packet with the information to be updated. It can i
 
 ### Response
 
-The response will include on of the following http codes:
+The response will include one of the following http codes:
 
 #### 500
 The system encountered an issue in handling this request. It may be due to an invalid bearer token, a post with no parameters, or some other unrelated server problem. Ensure you are using the correct bearer token, path, and http verb, and include an id and attempt your request again.
