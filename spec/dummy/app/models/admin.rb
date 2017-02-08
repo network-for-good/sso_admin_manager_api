@@ -8,4 +8,8 @@ class Admin < ActiveRecord::Base
   def root_url
     "path/to/root"
   end
+
+  def org_status
+    "active"
+  end
 end

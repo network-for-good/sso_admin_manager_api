@@ -7,7 +7,6 @@ module SsoAdminManagerApi
       respond_to :json
 
       before_filter :authorize_nfg_request!
-      before_filter :verify_id_param
 
       def index
         load_admins
@@ -18,11 +17,13 @@ module SsoAdminManagerApi
           render(json: { errors: "Admin could not be found"}, status: 404)
         end
 
-      rescue StandardError => e
-        render(json: { errors: "An error occurred: #{ e.message }"}, status: 500)
+      # rescue StandardError => e
+      #   render(json: { errors: "An error occurred: #{ e.message }"}, status: 500)
       end
 
       def update
+        render(json: { errors: "Request must include an id param."}, status: 500) and return if params[:id].nil?
+
         admin = Admin.find_by(id: params[:id])
 
         if admin
@@ -41,26 +42,19 @@ module SsoAdminManagerApi
     private
 
       def load_admins
-        @admins = if number?(params[:id])
+        @admins = if params[:id]
                     Admin.where(id: params[:id])
-                  elsif Admin.new.respond_to?(:sso_id)
-                    Admin.where(["email = ? or sso_id = ?", params[:id], params[:id]])
+                  elsif params[:sso_id] && Admin.new.respond_to?(:sso_id)
+                    Admin.where(sso_id: params[:sso_id])
+                  elsif params[:email]
+                    Admin.where(email: params[:email])
                   else
-                    Admin.where(email: params[:id])
+                    []
                   end
-      end
-
-      def number?(obj)
-        obj = obj.to_s unless obj.is_a? String
-        /\A[+-]?\d+(\.[\d]+)?\z/.match(obj)
       end
 
       def admin_params
         params.permit(:email, :first_name, :last_name)
-      end
-
-      def verify_id_param
-        ender(json: { errors: "Request must include an id param. The id param can set to one of the following:  email, internal id, or sso_id"}, status: 500) if params[:id].nil?
       end
 
     end
