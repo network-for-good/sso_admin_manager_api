@@ -18,7 +18,9 @@ module SsoAdminManagerApi
           admin.update(admin_params.slice(:email, :first_name, :last_name))
         end
 
-        respond_with  @admins,  each_serializer: SsoAdminManagerApi::V1::AdminSerializer, location: nil, status: 200
+        # this will automatically use the ArraySerializer for the collection,
+        # and the Admin serializer for each admin record in the collection
+        render json: @admins
       rescue StandardError => e
         render(json: { errors: "An error occurred: #{ e.message }"}, status: 500)
       end
