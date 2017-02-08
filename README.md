@@ -1,10 +1,8 @@
 # SsoAdminApi
 
-The SSO admin manager API allows an NFG application (most likely the Identity server) to update admin information (name, email address) in another Ruby based NFG Application
+The SSO admin manager API allows an NFG application (most likely the Identity server) to get a list of users based on email addresses, sso ids or the internal id of the application. Using the internal id, other NFG applications can request to update admin information (name, email address) in another Ruby based NFG Application
 
-It offers a single interface, and returns information about the user using http codes and a json packet.
-
-It can receive as an admin identifier the admins email address, id, or sso id.
+It will return information about the user or users using http codes and a json packet.
 
 ## List Request
 
@@ -25,14 +23,14 @@ Where [query string] can be
 
 No values will be returned unless a query string is provided
 
-## Response
+### Response
 
 The response will include on of the following http codes:
 
-### 500
+#### 500
 The system encountered an issue in handling this request. It may be due to an invalid bearer token, a post with no parameters, or some other unrelated server problem. Ensure you are using the correct bearer token, path, and http verb, and include an id and attempt your request again.
 
-### 200
+#### 200
 Indicates that at least one matching user was found. Will return the a list of found users:
 
 ````
@@ -56,7 +54,7 @@ Indicates that at least one matching user was found. Will return the a list of f
 }
 ````
 
-### 404
+#### 404
 No matching user was found
 
 
@@ -70,20 +68,22 @@ To update a user, other systems should submit a put/patch to:
 
 The :id must be the internal identifier for the resource
 
+To obtain the id, first request a list of users using the list end point and passing the appropriate query
+
 The post must include a JSON packet with the information to be updated. It can include email, first_name, last_name:
 
 ````
 { email: "email.example.com", last_name: "Smith"}
 ````
 
-## Response
+### Response
 
 The response will include on of the following http codes:
 
-### 500
+#### 500
 The system encountered an issue in handling this request. It may be due to an invalid bearer token, a post with no parameters, or some other unrelated server problem. Ensure you are using the correct bearer token, path, and http verb, and include an id and attempt your request again.
 
-### 200
+#### 200
 Indicates that a matching user was updated. Will return the user's update information:
 
 ````
@@ -98,12 +98,10 @@ Indicates that a matching user was updated. Will return the user's update inform
 }
 ````
 
-### 404
+#### 404
 No matching user was found
 
-
-
-# Requirements of containing app
+## Requirements of containing app
 There are several expectations that this library has for the containing application.
 1. The target user class is Admin, which must have the following attributes and/or methods:
   * id,
@@ -117,12 +115,12 @@ There are several expectations that this library has for the containing applicat
 2. Admin should have both of the following scopes
 3. The Admin class can have an sso_id field that stores an ID provided by the SSO server and can be used to identify the user. This library will check for the existence of this field.
 
-# Domains
+## Domains
 The domains are as follows:
 
 * QA: api.sso-qa.givecorps.com
 * Beta: api.networkforgood-beta.com
 * Production: api.networkforgood.com
 
-# Authentication
+## Authentication
 The request must include an Authorization header with a Bearer token that is appropriate for the environment.
