@@ -12,4 +12,12 @@ class Admin < ActiveRecord::Base
   def org_status
     "active"
   end
+
+  def org_identifier
+    "nfg"
+  end
+
+  def app
+    "dummy"
+  end
 end
