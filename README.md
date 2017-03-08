@@ -58,7 +58,7 @@ No matching user was found
 
 ## Update Request
 
-To update a user, other systems should submit a put/patch to:
+To update a user, other systems should submit a PUT/PATCH to:
 
 ````
 [domain]/[mount_point]/v1/admins/:id
@@ -68,7 +68,7 @@ The :id must be the internal identifier for the resource
 
 To obtain the id, first request a list of users using the list end point and passing the appropriate query
 
-The post must include a JSON packet with the information to be updated. It can include email, first_name, last_name:
+The PUT/PATCH must include a JSON packet with the information to be updated. It can include email, first_name, last_name:
 
 ````
 { email: "email.example.com", last_name: "Smith"}
