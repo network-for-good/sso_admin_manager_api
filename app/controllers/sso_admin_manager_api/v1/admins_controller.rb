@@ -12,7 +12,7 @@ module SsoAdminManagerApi
         load_admins
 
         if @admins.present?
-          render json: @admins, adapter: :json_api, meta: { record_count: @admins.length }
+          render json: @admins, adapter: :json_api, key_transform: :underscore, meta: { record_count: @admins.length }
         else
           render(json: { errors: "Admin could not be found"}, status: 404)
         end
@@ -30,7 +30,7 @@ module SsoAdminManagerApi
           admin.update(admin_params.slice(:email, :first_name, :last_name))
           # this will automatically use the ArraySerializer for the collection,
           # and the Admin serializer for each admin record in the collection
-          render json: admin, adapter: :json_api
+          render json: admin, adapter: :json_api, key_transform: :underscore
         else
           render(json: { errors: "Admin could not be found"}, status: 404)
         end
@@ -45,9 +45,9 @@ module SsoAdminManagerApi
         @admins = if params[:id]
                     Admin.where(id: params[:id])
                   elsif params[:sso_id] && Admin.new.respond_to?(:sso_id)
-                    Admin.where(sso_id: params[:sso_id])
+                    Admin.where(sso_id: params[:sso_id].downcase)
                   elsif params[:email]
-                    Admin.where(email: params[:email])
+                    Admin.where(email: params[:email].downcase)
                   else
                     []
                   end

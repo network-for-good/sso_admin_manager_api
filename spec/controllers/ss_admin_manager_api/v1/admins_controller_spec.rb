@@ -56,7 +56,7 @@ describe SsoAdminManagerApi::V1::AdminsController do
                             sso_id: sso_id } }
 
     let(:serialized_result) { ActiveModelSerializers::SerializableResource.new(admin.reload,
-                              serializer: SsoAdminManagerApi::V1::AdminSerializer, adapter: :json_api).to_json }
+                              serializer: SsoAdminManagerApi::V1::AdminSerializer, key_transform: :underscore, adapter: :json_api).to_json }
 
 
     subject { post :update, { id: identifier }.merge(params) }
@@ -99,7 +99,7 @@ describe SsoAdminManagerApi::V1::AdminsController do
                             roles: ["supervisor"],
                             sso_id: sso_id } }
 
-    let(:serialized_result) { ActiveModelSerializers::SerializableResource.new([admin.reload], each_serializer: SsoAdminManagerApi::V1::AdminSerializer, adapter: :json_api, meta: {record_count: 1}).to_json }
+    let(:serialized_result) { ActiveModelSerializers::SerializableResource.new([admin.reload], each_serializer: SsoAdminManagerApi::V1::AdminSerializer, key_transform: :underscore, adapter: :json_api, key_transform: :underscore, meta: {record_count: 1}).to_json }
 
 
     subject { get :index, query_param.merge(default_params) }
@@ -174,7 +174,7 @@ describe SsoAdminManagerApi::V1::AdminsController do
       let!(:admin2) { Admin.create(admin_params) }
       let(:query_param) { { email: admin.email } }
 
-      let(:serialized_result) { ActiveModelSerializers::SerializableResource.new([admin.reload, admin2.reload], each_serializer: SsoAdminManagerApi::V1::AdminSerializer, adapter: :json_api, meta: {record_count: 2}).to_json }
+      let(:serialized_result) { ActiveModelSerializers::SerializableResource.new([admin.reload, admin2.reload], each_serializer: SsoAdminManagerApi::V1::AdminSerializer, key_transform: :underscore, adapter: :json_api, meta: {record_count: 2}).to_json }
 
       it_should_behave_like "a valid admin that has been found"
     end
