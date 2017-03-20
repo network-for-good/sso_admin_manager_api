@@ -18,9 +18,9 @@ module SsoAdminManagerApi
     def self.cert_file_name
       case Rails.env
       when 'qa'
-        "nfg_qa.cer"
+        return "nfg_qa.cer"
       else
-        "nfg_production.cer"
+        return "nfg_production.cer"
       end
     end
 
