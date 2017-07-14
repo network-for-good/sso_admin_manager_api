@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 4.2.0"
-  s.add_dependency "jwt"
   s.add_dependency "responders"
   s.add_dependency "active_model_serializers"
 

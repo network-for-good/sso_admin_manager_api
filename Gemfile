@@ -10,6 +10,10 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
+group :test, :development do
+  gem 'token_decoder', git: 'git://github.com/network-for-good/token_decoder.git', branch: 'master'
+end
+
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 
