@@ -5,7 +5,7 @@ module SsoAdminManagerApi
       raise JWT::DecodeError.new unless authorization_token
 
       token = authorization_token.gsub("Bearer ", "").strip
-      decoded_token = SsoAdminManagerApi::TokenDecoder.decode(token)
+      decoded_token = ::TokenDecoder::Decoder.decode(token, Rails.env)
     rescue JWT::DecodeError
       render(json: { errors: 'A token must be passed.'}, status: 500)
     rescue JWT::ExpiredSignature
