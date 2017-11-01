@@ -6,7 +6,7 @@ module SsoAdminManagerApi
       include SsoAdminManagerApi::TokenAuthentication
       respond_to :json
 
-      before_filter :authorize_nfg_request!
+      before_action :authorize_nfg_request!
 
       def index
         load_admins

@@ -59,7 +59,7 @@ describe SsoAdminManagerApi::V1::AdminsController do
                               serializer: SsoAdminManagerApi::V1::AdminSerializer, key_transform: :underscore, adapter: :json_api).to_json }
 
 
-    subject { post :update, { id: identifier }.merge(params) }
+    subject { post :update, params: { id: identifier }.merge(params) }
     let(:params) { default_params.merge(email: email, last_name: "Jones") }
 
     context "with an invalid authorization token" do
@@ -102,7 +102,7 @@ describe SsoAdminManagerApi::V1::AdminsController do
     let(:serialized_result) { ActiveModelSerializers::SerializableResource.new([admin.reload], each_serializer: SsoAdminManagerApi::V1::AdminSerializer, key_transform: :underscore, adapter: :json_api, key_transform: :underscore, meta: {record_count: 1}).to_json }
 
 
-    subject { get :index, query_param.merge(default_params) }
+    subject { get :index, params: query_param.merge(default_params) }
 
     context "with an invalid authorization token" do
       let(:qa_token) { "baz" }
