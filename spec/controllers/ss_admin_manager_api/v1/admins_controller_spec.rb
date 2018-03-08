@@ -99,7 +99,7 @@ describe SsoAdminManagerApi::V1::AdminsController do
                             roles: ["supervisor"],
                             sso_id: sso_id } }
 
-    let(:serialized_result) { ActiveModelSerializers::SerializableResource.new([admin.reload], each_serializer: SsoAdminManagerApi::V1::AdminSerializer, key_transform: :underscore, adapter: :json_api, key_transform: :underscore, meta: {record_count: 1}).to_json }
+    let(:serialized_result) { ActiveModelSerializers::SerializableResource.new([admin.reload], each_serializer: SsoAdminManagerApi::V1::AdminSerializer, adapter: :json_api, key_transform: :underscore, meta: {record_count: 1}).to_json }
 
 
     subject { get :index, query_param.merge(default_params) }
