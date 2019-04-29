@@ -1,7 +1,7 @@
 module SsoAdminManagerApi
   module TokenAuthentication
     def authorize_nfg_request!
-      authorization_token = request.authorization
+      authorization_token = request.authorization || params[:jwt_token]
       raise JWT::DecodeError.new unless authorization_token
 
       token = authorization_token.gsub("Bearer ", "").strip
