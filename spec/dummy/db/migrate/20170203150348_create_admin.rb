@@ -7,6 +7,8 @@ class CreateAdmin < ActiveRecord::Migration
       t.string :sso_id
       t.string :status
       t.string :roles
+
+      t.timestamps null: false
     end
   end
 end

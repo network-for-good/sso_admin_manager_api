@@ -3,11 +3,15 @@ require 'rails_helper'
 class AdminWithoutOrgID
   alias :read_attribute_for_serialization :send
   attr_accessor :id, :first_name, :last_name, :email, :status,
-                :roles, :root_url, :org_status, :org_identifier, :app
+                :roles, :root_url, :org_status, :org_identifier, :app,
+                :created_at, :updated_at
 
   def initialize(params)
     params.each do |attr, value|
       instance_variable_set("@#{attr}", value)
+    end
+    %i[created_at updated_at].each do |attr|
+      instance_variable_set("@#{attr}", Time.zone.now)
     end
   end
 
