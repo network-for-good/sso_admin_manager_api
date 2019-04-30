@@ -12,7 +12,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20170203150348) do
-
   create_table "admins", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -20,6 +19,7 @@ ActiveRecord::Schema.define(version: 20170203150348) do
     t.string "sso_id"
     t.string "status"
     t.string "roles"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
-
 end

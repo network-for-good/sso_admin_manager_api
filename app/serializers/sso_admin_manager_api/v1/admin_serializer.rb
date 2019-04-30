@@ -10,7 +10,8 @@ module SsoAdminManagerApi
     # apps have both an org and and org_id attribute.
     class AdminSerializer < ActiveModel::Serializer
       attributes  :id, :first_name, :last_name, :email, :status,
-                  :roles, :root_url, :org_status, :org_identifier, :app, :org_id
+                  :roles, :root_url, :org_status, :org_identifier, :app, :org_id,
+                  :created_at, :updated_at
 
       def org_id
         if object.respond_to?(:org_id)
