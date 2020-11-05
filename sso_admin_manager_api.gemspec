@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency "active_model_serializers"
 
   s.add_development_dependency "rspec-rails", '>= 3.4.0'
+  s.add_development_dependency "rspec_junit_formatter"
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "pry"
   s.add_development_dependency "pry-byebug"
