@@ -1,3 +1,5 @@
+require 'jwt'
+
 module SsoAdminManagerApi
   module TokenAuthentication
     def authorize_nfg_request!
