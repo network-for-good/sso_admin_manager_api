@@ -1,3 +1,3 @@
 module SsoAdminManagerApi
-  VERSION = "6.1.3"
+  VERSION = "6.5.3"
 end
