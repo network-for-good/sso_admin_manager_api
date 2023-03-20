@@ -4,7 +4,7 @@ class AdminWithoutOrgID
   alias :read_attribute_for_serialization :send
   attr_accessor :id, :first_name, :last_name, :email, :status,
                 :roles, :root_url, :org_status, :org_identifier, :app,
-                :created_at, :updated_at
+                :created_at, :updated_at, :product_names
 
   def initialize(params)
     params.each do |attr, value|
@@ -40,7 +40,8 @@ RSpec.describe SsoAdminManagerApi::V1::AdminSerializer do
       root_url: 'https://my.example.com/admin/123',
       org_status: 'active',
       org_identifier: 'demo',
-      app: 'evo'
+      app: 'evo',
+      product_names: 'auction'
     }
   }
 
