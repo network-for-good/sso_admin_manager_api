@@ -41,7 +41,7 @@ RSpec.describe SsoAdminManagerApi::V1::AdminSerializer do
       org_status: 'active',
       org_identifier: 'demo',
       app: 'evo',
-      product_names: ['auction']
+      product_names: ['auctions']
     }
   }
 
