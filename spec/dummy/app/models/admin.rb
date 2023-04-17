@@ -5,6 +5,8 @@ class Admin < ActiveRecord::Base
 
   serialize :roles, Array
 
+  serialize :product_names, Array
+
   def root_url
     "path/to/root"
   end

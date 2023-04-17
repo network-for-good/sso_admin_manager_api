@@ -11,7 +11,7 @@ module SsoAdminManagerApi
     class AdminSerializer < ActiveModel::Serializer
       attributes  :id, :first_name, :last_name, :email, :status,
                   :roles, :root_url, :org_status, :org_identifier, :app, :org_id,
-                  :created_at, :updated_at
+                  :created_at, :updated_at, :product_names
 
       def org_id
         if object.respond_to?(:org_id)
@@ -23,6 +23,10 @@ module SsoAdminManagerApi
 
       def org
         object.respond_to?(:org) ? object.org : nil
+      end
+
+      def product_names
+        org.try(:product_names) || []
       end
     end
   end
