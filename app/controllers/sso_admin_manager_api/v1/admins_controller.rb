@@ -3,6 +3,9 @@ require 'sso_admin_manager_api/secure_api'
 module SsoAdminManagerApi
   module V1
     class AdminsController < ActionController::Base
+      # we do not want to enforce CSRF protection for this API
+      protect_from_forgery with: :null_session
+
       include SsoAdminManagerApi::TokenAuthentication
       respond_to :json
 
