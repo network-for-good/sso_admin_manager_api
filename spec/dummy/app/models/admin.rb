@@ -3,9 +3,9 @@ class Admin < ActiveRecord::Base
 
   scope :active, -> { where(status: 'active') }
 
-  serialize :roles, Array
+  serialize :roles, type: Array
 
-  serialize :product_names, Array
+  serialize :product_names, type: Array
 
   def root_url
     "path/to/root"
