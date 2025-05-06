@@ -9,7 +9,7 @@ GIT
 PATH
   remote: .
   specs:
-    sso_admin_manager_api (7.2.0.uat.1)
+    sso_admin_manager_api (7.2.0)
       active_model_serializers
       jwt
       rails (~> 7.2)
